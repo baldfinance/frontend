@@ -134,9 +134,15 @@ const makeRouteLeg = async (pairContract: Contract, tokenIn: Token, tokenOut: To
   }
 }
 
+const RPC_ENDPOINTS = {
+  [ChainId.BASE]: "https://base-mainnet.blastapi.io/b2ba991b-e915-4fd6-8f73-2d60d2350ce5",
+  [ChainId.BASE_GOERLI]: "https://base-goerli.blastapi.io/b2ba991b-e915-4fd6-8f73-2d60d2350ce5",
+};
+
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
-  const provider = new ethers.providers.JsonRpcProvider("https://base-goerli.blastapi.io/b2ba991b-e915-4fd6-8f73-2d60d2350ce5");
   const body = JSON.parse(event.body || "{}");
+  const CHAIN_ID = body.tokenInChainId;
+  const provider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINTS[CHAIN_ID]);
   const WETH_ADDRESS = WETH_ADDRESSES[body.tokenInChainId];
   let tokenIn = body.tokenIn;
   if (tokenIn === "ETH") {
@@ -155,7 +161,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       body: JSON.stringify({ error: "Invalid query parameters" }),
     };
   }
-  const CHAIN_ID = body.tokenInChainId;
   const ROUTER_ADDRESS = V2_ROUTER_ADDRESSES[CHAIN_ID];
   const FACTORY_ADDRESS = V2_FACTORY_ADDRESSES[CHAIN_ID];
   const WETH_TOKEN = new Token(CHAIN_ID, WETH_ADDRESS, 18, "WETH", "Wrapped Ether");
