@@ -182,7 +182,7 @@ export default function Pool() {
               <AutoColumn gap="md" style={{ width: '100%' }}>
                 <Layer2Prompt>
                   <ThemedText.DeprecatedBody color={theme.textTertiary} textAlign="center">
-                    <Trans>Uniswap V2 is not available on this network.</Trans>
+                    <Trans>Bald Finance is not available on this network.</Trans>
                   </ThemedText.DeprecatedBody>
                 </Layer2Prompt>
               </AutoColumn>

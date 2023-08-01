@@ -8,14 +8,12 @@ declare type AddressMap = {
 
 
 const V2_FACTORY_ADDRESSES: AddressMap = {
-  [ChainId.MAINNET]: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-  [ChainId.BASE]: '0x5AbCE5785FBF9a351cf4aD217af728B169E0F285',
+  [ChainId.BASE]: '0x40e383B4820F84d9D4887caC490FD7C37094874c',
   [ChainId.BASE_GOERLI]: '0x25688571dEd2d102053Ca0EFD382E87c00231A23',
 };
 
 const V2_ROUTER_ADDRESSES: AddressMap = {
-  [ChainId.MAINNET]: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-  [ChainId.BASE]: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+  [ChainId.BASE]: '0xBe8758DA8d5aC48191Ea4367DE48f4E216aCA9F8',
   [ChainId.BASE_GOERLI]: '0xcF34aD93dcA3aa41871D8A794D51e1480b3a9677',
 };
 
@@ -39,9 +37,13 @@ const PAIR_ABI = [
 ]
 
 const WETH_ADDRESSES = {
-[ChainId.MAINNET]: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-[ChainId.BASE]: "0x4200000000000000000000000000000000000006",
-[ChainId.BASE_GOERLI]: "0x4200000000000000000000000000000000000006",
+  [ChainId.BASE]: "0x4200000000000000000000000000000000000006",
+  [ChainId.BASE_GOERLI]: "0x4200000000000000000000000000000000000006",
+};
+
+const SHINY_ADDRESSES = {
+  [ChainId.BASE]: "0xbe49A5AeFB08cC5b84dBcB92B5aae6B78Dac3A8c",
+  [ChainId.BASE_GOERLI]: "0x45F65264b6C254cFa23163849fAB4FC8CaFe143f",
 };
 
 enum URAQuoteType {
@@ -157,6 +159,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
   const ROUTER_ADDRESS = V2_ROUTER_ADDRESSES[CHAIN_ID];
   const FACTORY_ADDRESS = V2_FACTORY_ADDRESSES[CHAIN_ID];
   const WETH_TOKEN = new Token(CHAIN_ID, WETH_ADDRESS, 18, "WETH", "Wrapped Ether");
+  const SHINY_TOKEN = new Token(CHAIN_ID, SHINY_ADDRESSES[CHAIN_ID], 18, "SHINY", "Shiny");
   const erc20_token_in = new ethers.Contract(tokenIn, ERC20_ABI, provider);
   const erc20_token_out = new ethers.Contract(tokenOut, ERC20_ABI, provider);
   const tokenInCanonical = new Token(CHAIN_ID, tokenIn, (await erc20_token_in.decimals()), (await erc20_token_in.symbol()).toString());
@@ -171,7 +174,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
   const directPairAddress = await factory.getPair(tokenInCanonical.address, tokenOutCanonical.address);
 
-  let amountOut, route : Array<V2PoolInRoute[]>;
+  let amountOut; let route : Array<V2PoolInRoute[]> = [];
 
   console.log("direct", directPairAddress)
   if (directPairAddress !== ethers.constants.AddressZero) {
@@ -190,36 +193,77 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     ]
   }
 
-  // Try to find a route via WETH
-  const wethTokenInPair = await factory.getPair(tokenInCanonical.address, WETH_TOKEN.address);
-  const wethTokenOutPair = await factory.getPair(WETH_TOKEN.address, tokenOutCanonical.address);
-  if (wethTokenInPair !== ethers.constants.AddressZero && wethTokenOutPair !== ethers.constants.AddressZero) {
-    // Route via WETH exists
-    const wethAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, WETH_TOKEN.address, tokenOutCanonical.address]))[2].toString();
-    const firstLegAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, WETH_TOKEN.address]))[1].toString();
-    if (amountOut === undefined || wethAmountOut < amountOut) {
-      amountOut = wethAmountOut;
-      route = [
-        [
-          await makeRouteLeg(
-            new ethers.Contract(wethTokenInPair, PAIR_ABI, provider),
-            tokenInCanonical,
-            WETH_TOKEN,
-            amount,
-            firstLegAmountOut,
-          ),
-          await makeRouteLeg(
-            new ethers.Contract(wethTokenOutPair, PAIR_ABI, provider),
-            WETH_TOKEN,
-            tokenOutCanonical,
-            firstLegAmountOut,
-            amountOut
-          )
+  if (route.length === 0) {
+    // Try to find a route via SHINY
+    const shinyTokenInPair = await factory.getPair(tokenInCanonical.address, SHINY_TOKEN.address);
+    const shinyTokenOutPair = await factory.getPair(SHINY_TOKEN.address, tokenOutCanonical.address);
+    if (shinyTokenInPair !== ethers.constants.AddressZero && shinyTokenOutPair !== ethers.constants.AddressZero) {
+      // Route via SHINY exists
+      const shinyAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, SHINY_TOKEN.address, tokenOutCanonical.address]))[2].toString();
+      const firstLegAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, SHINY_TOKEN.address]))[1].toString();
+      if (amountOut === undefined || shinyAmountOut < amountOut) {
+        amountOut = shinyAmountOut;
+        route = [
+          [
+            await makeRouteLeg(
+              new ethers.Contract(shinyTokenInPair, PAIR_ABI, provider),
+              tokenInCanonical,
+              SHINY_TOKEN,
+              amount,
+              firstLegAmountOut,
+            ),
+            await makeRouteLeg(
+              new ethers.Contract(shinyTokenOutPair, PAIR_ABI, provider),
+              SHINY_TOKEN,
+              tokenOutCanonical,
+              firstLegAmountOut,
+              amountOut
+            )
+          ]
         ]
-      ]
+      }
     }
   }
-  // TODO: Add SHINY route
+
+  if (route.length === 0) {
+    // Try to find a route via WETH
+    const wethTokenInPair = await factory.getPair(tokenInCanonical.address, WETH_TOKEN.address);
+    const wethTokenOutPair = await factory.getPair(WETH_TOKEN.address, tokenOutCanonical.address);
+    if (wethTokenInPair !== ethers.constants.AddressZero && wethTokenOutPair !== ethers.constants.AddressZero) {
+      // Route via WETH exists
+      const wethAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, WETH_TOKEN.address, tokenOutCanonical.address]))[2].toString();
+      const firstLegAmountOut = (await router.getAmountsOut(amount, [tokenInCanonical.address, WETH_TOKEN.address]))[1].toString();
+      if (amountOut === undefined || wethAmountOut < amountOut) {
+        amountOut = wethAmountOut;
+        route = [
+          [
+            await makeRouteLeg(
+              new ethers.Contract(wethTokenInPair, PAIR_ABI, provider),
+              tokenInCanonical,
+              WETH_TOKEN,
+              amount,
+              firstLegAmountOut,
+            ),
+            await makeRouteLeg(
+              new ethers.Contract(wethTokenOutPair, PAIR_ABI, provider),
+              WETH_TOKEN,
+              tokenOutCanonical,
+              firstLegAmountOut,
+              amountOut
+            )
+          ]
+        ]
+      }
+    }
+  }
+
+  if (route.length === 0) {
+    // No route exists
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "No route exists" }),
+    };
+  }
 
   const response: URAClassicQuoteResponse = {
     routing: URAQuoteType.CLASSIC,

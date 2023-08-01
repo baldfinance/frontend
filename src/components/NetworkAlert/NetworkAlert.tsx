@@ -39,7 +39,7 @@ const SHOULD_SHOW_ALERT = {
   [ChainId.CELO_ALFAJORES]: true,
   [ChainId.BNB]: true,
   [ChainId.AVALANCHE]: true,
-  [ChainId.BASE]: true,
+  [ChainId.BASE]: false,
   [ChainId.BASE_GOERLI]: true,
 }
 
