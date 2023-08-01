@@ -210,6 +210,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
     USDT_AVALANCHE,
     WETH_AVALANCHE,
   ],
+  [ChainId.BASE]: [...WRAPPED_NATIVE_CURRENCIES_ONLY[ChainId.BASE]],
+  [ChainId.BASE_GOERLI]: [...WRAPPED_NATIVE_CURRENCIES_ONLY[ChainId.BASE_GOERLI]],
 }
 export const PINNED_PAIRS: { readonly [chainId: number]: [Token, Token][] } = {
   [ChainId.MAINNET]: [

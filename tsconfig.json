@@ -34,5 +34,5 @@
   "include": ["src/**/*", "src/**/*.json"],
   "watchOptions": {
     "excludeDirectories": ["node_modules"]
-  }
+  },
 }
