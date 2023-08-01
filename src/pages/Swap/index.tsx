@@ -10,7 +10,6 @@ import {
 } from '@uniswap/analytics-events'
 import { formatCurrencyAmount, NumberType } from '@uniswap/conedison/format'
 import { ChainId, Currency, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core'
-import { UNIVERSAL_ROUTER_ADDRESS } from '@uniswap/universal-router-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { sendAnalyticsEvent, Trace, TraceEvent, useTrace } from 'analytics'
 import { useToggleAccountDrawer } from 'components/AccountDrawer'
@@ -62,6 +61,7 @@ import { didUserReject } from 'utils/swapErrorToUserReadableMessage'
 
 import { useScreenSize } from '../../hooks/useScreenSize'
 import { UniswapXOptIn } from './UniswapXOptIn'
+import { UNIVERSAL_ROUTER_ADDRESSES } from 'constants/routing'
 
 export const ArrowContainer = styled.div`
   display: inline-flex;
@@ -375,7 +375,7 @@ export function Swap({
       (parsedAmounts[Field.INPUT]?.currency.isToken
         ? (parsedAmounts[Field.INPUT] as CurrencyAmount<Token>)
         : undefined),
-    isSupportedChain(chainId) ? UNIVERSAL_ROUTER_ADDRESS(chainId) : undefined,
+    isSupportedChain(chainId) ? UNIVERSAL_ROUTER_ADDRESSES[chainId] : undefined,
     trade?.fillType
   )
 
