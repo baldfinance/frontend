@@ -1,5 +1,5 @@
-export const UNI_LIST = 'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
-export const UNI_EXTENDED_LIST = 'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
+export const UNI_LIST = 'https://raw.githubusercontent.com/baldfinance/token_list/main/tokenlist.json'
+export const UNI_EXTENDED_LIST = 'https://raw.githubusercontent.com/baldfinance/token_list/main/tokenlist.json'
 const UNI_UNSUPPORTED_LIST = 'https://gateway.ipfs.io/ipns/unsupportedtokens.uniswap.org'
 const AAVE_LIST = 'tokenlist.aave.eth'
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
@@ -25,7 +25,7 @@ export const PLASMA_BNB_LIST = 'https://raw.githubusercontent.com/plasmadlt/plas
 export const AVALANCHE_LIST =
   'https://raw.githubusercontent.com/ava-labs/avalanche-bridge-resources/main/token_list.json'
 export const BASE_LIST =
-  'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
+  'https://raw.githubusercontent.com/baldfinance/token_list/main/tokenlist.json'
 
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST, UNI_UNSUPPORTED_LIST]
 
