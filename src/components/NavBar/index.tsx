@@ -104,7 +104,6 @@ const Navbar = ({ blur }: { blur: boolean }) => {
     }
     navigate({
       pathname: '/',
-      search: '?intro=true',
     })
   }, [accountDrawerOpen, navigate, toggleAccountDrawer])
 
@@ -114,7 +113,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
       <Nav>
         <Box display="flex" height="full" flexWrap="nowrap">
           <Box className={styles.leftSideContainer}>
-            <Box className={styles.logoContainer} fontSize="40">
+            <Box className={styles.logoContainer} fontSize="40" onClick={() => {navigate({pathname: '/',})}}>
               {/* <UniIcon
                 width="48"
                 height="48"

@@ -1,5 +1,5 @@
-export const UNI_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
-export const UNI_EXTENDED_LIST = 'https://gateway.ipfs.io/ipns/extendedtokens.uniswap.org'
+export const UNI_LIST = 'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
+export const UNI_EXTENDED_LIST = 'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
 const UNI_UNSUPPORTED_LIST = 'https://gateway.ipfs.io/ipns/unsupportedtokens.uniswap.org'
 const AAVE_LIST = 'tokenlist.aave.eth'
 const BA_LIST = 'https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json'
@@ -30,7 +30,7 @@ export const BASE_LIST =
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST, UNI_UNSUPPORTED_LIST]
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [UNI_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [BASE_LIST]
 export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   UNI_EXTENDED_LIST,
   COMPOUND_LIST,
