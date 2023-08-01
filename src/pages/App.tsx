@@ -38,6 +38,7 @@ import RemoveLiquidity from './RemoveLiquidity'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly } from './Swap/redirects'
 import Tokens from './Tokens'
+import Soon from './Soon'
 
 const TokenDetails = lazy(() => import('./TokenDetails'))
 const Vote = lazy(() => import('./Vote'))
@@ -227,6 +228,7 @@ export default function App() {
 
                   <Route path="pools/find" element={<PoolFinder />} />
                   <Route path="pools" element={<PoolV2 />} />
+                  <Route path="soon" element={<Soon />} />
                   {/* <Route path="pools" element={<Pool />} />
                   <Route path="pools/:tokenId" element={<PositionPage />} /> */}
 

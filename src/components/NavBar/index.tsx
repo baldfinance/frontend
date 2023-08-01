@@ -80,7 +80,7 @@ export const PageTabs = () => {
         <Trans>Pools</Trans>
       </MenuItem>
       {/* </Box> */}
-      <MenuItem href="/not-found">
+      <MenuItem href="/soon">
         <Trans>$SHINY</Trans>
       </MenuItem>
       {/* <Box marginY={{ sm: '4', md: 'unset' }}>
