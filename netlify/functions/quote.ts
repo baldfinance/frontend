@@ -159,7 +159,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
   const ROUTER_ADDRESS = V2_ROUTER_ADDRESSES[CHAIN_ID];
   const FACTORY_ADDRESS = V2_FACTORY_ADDRESSES[CHAIN_ID];
   const WETH_TOKEN = new Token(CHAIN_ID, WETH_ADDRESS, 18, "WETH", "Wrapped Ether");
-  const SHINY_TOKEN = new Token(CHAIN_ID, SHINY_ADDRESSES[CHAIN_ID], 18, "SHINY", "Shiny");
+  const SHINY_TOKEN = new Token(CHAIN_ID, SHINY_ADDRESSES[CHAIN_ID], 18, "SHINY", "Shiny Valueless Token");
   const erc20_token_in = new ethers.Contract(tokenIn, ERC20_ABI, provider);
   const erc20_token_out = new ethers.Contract(tokenOut, ERC20_ABI, provider);
   const tokenInCanonical = new Token(CHAIN_ID, tokenIn, (await erc20_token_in.decimals()), (await erc20_token_in.symbol()).toString());
