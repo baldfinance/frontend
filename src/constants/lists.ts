@@ -25,7 +25,7 @@ export const PLASMA_BNB_LIST = 'https://raw.githubusercontent.com/plasmadlt/plas
 export const AVALANCHE_LIST =
   'https://raw.githubusercontent.com/ava-labs/avalanche-bridge-resources/main/token_list.json'
 export const BASE_LIST =
-  'https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json'
+  'https://raw.githubusercontent.com/xotaqi/bald-tokens/main/tokenlist.json'
 
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST, UNI_UNSUPPORTED_LIST]
 
@@ -52,7 +52,6 @@ export const DEFAULT_INACTIVE_LIST_URLS: string[] = [
   CELO_LIST,
   PLASMA_BNB_LIST,
   AVALANCHE_LIST,
-  BASE_LIST,
   ...UNSUPPORTED_LIST_URLS,
 ]
 
