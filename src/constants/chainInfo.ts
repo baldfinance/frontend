@@ -65,26 +65,26 @@ type ChainInfoMap = { readonly [chainId: number]: L1ChainInfo | L2ChainInfo } & 
 } & { readonly [chainId in SupportedL1ChainId]: L1ChainInfo }
 
 const CHAIN_INFO: ChainInfoMap = {
-  // [ChainId.MAINNET]: {
-  //   networkType: NetworkType.L1,
-  //   docs: 'https://docs.uniswap.org/',
-  //   explorer: 'https://etherscan.io/',
-  //   infoLink: 'https://info.uniswap.org/#/',
-  //   label: 'Ethereum',
-  //   logoUrl: ethereumLogoUrl,
-  //   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-  //   color: darkTheme.chain_1,
-  // },
-  // [ChainId.GOERLI]: {
-  //   networkType: NetworkType.L1,
-  //   docs: 'https://docs.uniswap.org/',
-  //   explorer: 'https://goerli.etherscan.io/',
-  //   infoLink: 'https://info.uniswap.org/#/',
-  //   label: 'Görli',
-  //   logoUrl: ethereumLogoUrl,
-  //   nativeCurrency: { name: 'Görli Ether', symbol: 'görETH', decimals: 18 },
-  //   color: darkTheme.chain_5,
-  // },
+  [ChainId.MAINNET]: {
+    networkType: NetworkType.L1,
+    docs: '',
+    explorer: 'https://etherscan.io/',
+    infoLink: '',
+    label: 'Ethereum',
+    logoUrl: ethereumLogoUrl,
+    nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+    color: darkTheme.chain_1,
+  },
+  [ChainId.GOERLI]: {
+    networkType: NetworkType.L1,
+    docs: 'https://docs.uniswap.org/',
+    explorer: 'https://goerli.etherscan.io/',
+    infoLink: 'https://info.uniswap.org/#/',
+    label: 'Görli',
+    logoUrl: ethereumLogoUrl,
+    nativeCurrency: { name: 'Görli Ether', symbol: 'görETH', decimals: 18 },
+    color: darkTheme.chain_5,
+  },
   // [ChainId.SEPOLIA]: {
   //   networkType: NetworkType.L1,
   //   docs: 'https://docs.uniswap.org/',
@@ -246,7 +246,7 @@ const CHAIN_INFO: ChainInfoMap = {
   [ChainId.BASE]: {
     networkType: NetworkType.L2,
     blockWaitMsBeforeWarning: ms`25m`,
-    bridge: 'https://bridge.base.org/deposit',
+    bridge: 'https://bald.finance/bridge',
     defaultListUrl: BASE_LIST,
     docs: 'https://docs.base.org',
     explorer: 'https://basescan.org/',
@@ -262,7 +262,7 @@ const CHAIN_INFO: ChainInfoMap = {
   [ChainId.BASE_GOERLI]: {
     networkType: NetworkType.L2,
     blockWaitMsBeforeWarning: ms`25m`,
-    bridge: 'https://goerli-bridge.base.org/deposit',
+    bridge: 'https://bald.finance/bridge',
     defaultListUrl: BASE_LIST,
     docs: 'https://docs.base.org',
     explorer: 'https://goerli.basescan.org/',

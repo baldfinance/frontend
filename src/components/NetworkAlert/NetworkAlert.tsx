@@ -9,6 +9,8 @@ import { colors } from 'theme/colors'
 import { useDarkModeManager } from 'theme/components/ThemeToggle'
 
 import { AutoRow } from '../Row'
+import { Box, Link } from '@chakra-ui/layout'
+import { useNavigate } from 'react-router'
 
 const L2Icon = styled.img`
   width: 24px;
@@ -39,7 +41,7 @@ const SHOULD_SHOW_ALERT = {
   [ChainId.CELO_ALFAJORES]: true,
   [ChainId.BNB]: true,
   [ChainId.AVALANCHE]: true,
-  [ChainId.BASE]: false,
+  [ChainId.BASE]: true,
   [ChainId.BASE_GOERLI]: true,
 }
 
@@ -130,7 +132,7 @@ const Header = styled.h2`
   margin: 0;
 `
 
-const LinkOutToBridge = styled(ExternalLink)`
+const LinkOutToBridge = styled(Link)`
   align-items: center;
   border-radius: 8px;
   color: white;
@@ -170,6 +172,7 @@ function shouldShowAlert(chainId: number | undefined): chainId is NetworkAlertCh
 export function NetworkAlert() {
   const { chainId } = useWeb3React()
   const [darkMode] = useDarkModeManager()
+  const navigate = useNavigate()
 
   if (!shouldShowAlert(chainId)) {
     return null
@@ -184,15 +187,15 @@ export function NetworkAlert() {
   return bridge ? (
     <RootWrapper>
       <ContentWrapper chainId={chainId} darkMode={darkMode} logoUrl={logoUrl}>
-        <LinkOutToBridge href={bridge}>
+        <LinkOutToBridge onClick={() => navigate("/bridge")}>
           <BodyText color={textColor}>
             <L2Icon src={logoUrl} />
             <AutoRow>
               <Header>
-                <Trans>{label} token bridge</Trans>
+                <Trans>{label} Ether bridge</Trans>
               </Header>
               <HideSmall>
-                <Trans>Deposit tokens to the {label} network.</Trans>
+                <Trans>Deposit Ether to the {label} network.</Trans>
               </HideSmall>
             </AutoRow>
           </BodyText>

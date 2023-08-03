@@ -1,4 +1,7 @@
+import { getCreate2Address } from '@ethersproject/address'
 import { getAddress } from '@ethersproject/address'
+import { keccak256, pack } from '@ethersproject/solidity'
+import { Token } from '@uniswap/sdk-core'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -40,4 +43,21 @@ function ellipseAddressAdd0x(targetAddress: string, charsStart = 4, charsEnd = 4
  */
 function ellipseMiddle(target: string, charsStart = 4, charsEnd = 4): string {
   return `${target.slice(0, charsStart)}...${target.slice(target.length - charsEnd)}`
+}
+
+export const computePairAddress = ({
+  factoryAddress,
+  tokenA,
+  tokenB
+}: {
+  factoryAddress: string
+  tokenA: Token
+  tokenB: Token
+}): string => {
+  const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA] // does safety checks
+  return getCreate2Address(
+    factoryAddress,
+    keccak256(['bytes'], [pack(['address', 'address'], [token0.address, token1.address])]),
+    "0x9772e80857294d15cfa57f1c03010f1d35025df2a4d044c6418e97d3f715b649"
+  )
 }

@@ -1,5 +1,5 @@
 import { Percent, Token } from '@uniswap/sdk-core'
-import { computePairAddress, Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@uniswap/v2-sdk'
 import { useWeb3React } from '@web3-react/core'
 import { L2_CHAIN_IDS } from 'constants/chains'
 import { SupportedLocale } from 'constants/locales'
@@ -24,6 +24,7 @@ import {
   updateUserSlippageTolerance,
 } from './reducer'
 import { SerializedPair, SerializedToken, SlippageTolerance } from './types'
+import { computePairAddress } from 'utils'
 
 export function serializeToken(token: Token): SerializedToken {
   return {

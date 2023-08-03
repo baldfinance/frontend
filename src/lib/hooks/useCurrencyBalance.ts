@@ -104,6 +104,8 @@ export function useTokenBalance(account?: string, token?: Token): CurrencyAmount
     account,
     useMemo(() => [token], [token])
   )
+  console.log('token', token)
+  console.log('tokenBalances', tokenBalances)
   if (!token) return undefined
   return tokenBalances[token.address]
 }

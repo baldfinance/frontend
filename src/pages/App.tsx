@@ -21,6 +21,7 @@ import { STATSIG_DUMMY_KEY } from 'tracing'
 import { getEnvName } from 'utils/env'
 import { getCurrentPageFromLocation } from 'utils/urlRoutes'
 import { getCLS, getFCP, getFID, getLCP, Metric } from 'web-vitals'
+import { ChakraProvider, theme } from '@chakra-ui/react'
 
 import { useAnalyticsReporter } from '../components/analytics'
 import ErrorBoundary from '../components/ErrorBoundary'
@@ -39,6 +40,11 @@ import Swap from './Swap'
 import { RedirectPathToSwapOnly } from './Swap/redirects'
 import Tokens from './Tokens'
 import Soon from './Soon'
+import Bridge from './Bridge'
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/react'
+
+delete theme.styles.global;
 
 const TokenDetails = lazy(() => import('./TokenDetails'))
 const Vote = lazy(() => import('./Vote'))
@@ -179,9 +185,16 @@ export default function App() {
     [account]
   )
 
+  const emotionCache = createCache({
+    key: 'emotion-css-cache',
+    prepend: true, // ensures styles are prepended to the <head>, instead of appended
+  });
+
   return (
     <ErrorBoundary>
       <DarkModeQueryParamReader />
+      <CacheProvider value={emotionCache}>
+      <ChakraProvider theme={theme} cssVarsRoot="#componentRootStart" resetCSS={false} >
       <Trace page={currentPage}>
         <StatsigProvider
           user={statsigUser}
@@ -220,6 +233,7 @@ export default function App() {
                   <Route path="create-proposal" element={<Navigate to="/vote/create-proposal" replace />} />
                   <Route path="send" element={<RedirectPathToSwapOnly />} />
                   <Route path="swap" element={<Swap />} />
+                  {/* <Route path="bridge" element={<Bridge />} /> */}
 
                   <Route path="pool/find" element={<PoolFinder />} />
                   <Route path="pool" element={<PoolV2 />} />
@@ -317,6 +331,8 @@ export default function App() {
           </MobileBottomBar>
         </StatsigProvider>
       </Trace>
+      </ChakraProvider>
+      </CacheProvider>
     </ErrorBoundary>
   )
 }

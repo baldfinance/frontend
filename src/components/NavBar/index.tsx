@@ -76,6 +76,9 @@ export const PageTabs = () => {
         </MenuItem>
       )} */}
       {/* <Box display={{ sm: 'flex', lg: 'none', xxl: 'flex' }} width="full"> */}
+      {/* <MenuItem href="/bridge">
+        <Trans>Bridge</Trans>
+      </MenuItem> */}
       <MenuItem href="/pools" dataTestId="pool-nav-link" isActive={isPoolActive}>
         <Trans>Pools</Trans>
       </MenuItem>

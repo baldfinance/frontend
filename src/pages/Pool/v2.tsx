@@ -119,12 +119,16 @@ export default function Pool() {
     [tokenPairsWithLiquidityTokens, v2PairsBalances]
   )
 
+  console.log('liquidityTokensWithBalances', liquidityTokensWithBalances)
+
   const v2Pairs = useV2Pairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
   const v2IsLoading =
     fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some((V2Pair) => !V2Pair)
 
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
+  console.log('v2Pairs', v2Pairs)
 
+  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
+  console.log('allV2PairsWithLiquidity', allV2PairsWithLiquidity)
   // show liquidity even if its deposited in rewards contract
   const stakingInfo = useStakingInfo()
   const stakingInfosWithBalance = stakingInfo?.filter((pool) =>
@@ -233,7 +237,7 @@ export default function Pool() {
                   </EmptyProposals>
                 ) : allV2PairsWithLiquidity?.length > 0 || stakingPairs?.length > 0 ? (
                   <>
-                    <ButtonSecondary>
+                    {/* <ButtonSecondary>
                       <RowBetween>
                         <Trans>
                           <ExternalLink href={'https://v2.info.uniswap.org/account/' + account}>
@@ -242,7 +246,7 @@ export default function Pool() {
                           <span> ↗ </span>
                         </Trans>
                       </RowBetween>
-                    </ButtonSecondary>
+                    </ButtonSecondary> */}
                     {v2PairsWithoutStakedAmount.map((v2Pair) => (
                       <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
                     ))}
@@ -256,23 +260,6 @@ export default function Pool() {
                           />
                         )
                     )}
-                    <RowFixed justify="center" style={{ width: '100%' }}>
-                      <ButtonOutlined
-                        as={Link}
-                        to="/migrate/v2"
-                        id="import-pool-link"
-                        style={{
-                          padding: '8px 16px',
-                          margin: '0 4px',
-                          borderRadius: '12px',
-                          width: 'fit-content',
-                          fontSize: '14px',
-                        }}
-                      >
-                        <ChevronsRight size={16} style={{ marginRight: '8px' }} />
-                        <Trans>Migrate Liquidity to V3</Trans>
-                      </ButtonOutlined>
-                    </RowFixed>
                   </>
                 ) : (
                   <EmptyProposals>

@@ -1,10 +1,11 @@
 import { Interface } from '@ethersproject/abi'
-import { ChainId, Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
 import IUniswapV2PairJSON from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import { computePairAddress, Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@uniswap/v2-sdk'
 import { useMultipleContractSingleData } from 'lib/hooks/multicall'
 import { useMemo } from 'react'
 import { V2_FACTORY_ADDRESSES } from '../constants/routing'
+import { computePairAddress } from 'utils'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairJSON.abi)
 
@@ -48,12 +49,15 @@ export function useV2Pairs(currencies: [Currency | undefined, Currency | undefin
       if (!reserves) return [PairState.NOT_EXISTS, null]
       const { reserve0, reserve1 } = reserves
       const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
+      const pair = new Pair(
+        CurrencyAmount.fromRawAmount(token0, reserve0.toString()),
+        CurrencyAmount.fromRawAmount(token1, reserve1.toString())
+      )
+      const liquidityToken = new Token(tokenA.chainId, computePairAddress({ factoryAddress: V2_FACTORY_ADDRESSES[tokenA.chainId], tokenA, tokenB }), 18, 'UNI-V2', 'Uniswap V2')
+      Object.defineProperty(pair, 'liquidityToken', {value: liquidityToken})
       return [
         PairState.EXISTS,
-        new Pair(
-          CurrencyAmount.fromRawAmount(token0, reserve0.toString()),
-          CurrencyAmount.fromRawAmount(token1, reserve1.toString())
-        ),
+        pair,
       ]
     })
   }, [results, tokens])
