@@ -79,13 +79,16 @@ export const PageTabs = () => {
       {/* <MenuItem href="/bridge">
         <Trans>Bridge</Trans>
       </MenuItem> */}
+      <MenuItem href="/claim">
+        <Trans>Claim LP</Trans>
+      </MenuItem>
       <MenuItem href="/pools" dataTestId="pool-nav-link" isActive={isPoolActive}>
         <Trans>Pools</Trans>
       </MenuItem>
       {/* </Box> */}
-      <MenuItem href="/soon">
+      {/* <MenuItem href="/soon">
         <Trans>$SHINY</Trans>
-      </MenuItem>
+      </MenuItem> */}
       {/* <Box marginY={{ sm: '4', md: 'unset' }}>
         <MenuDropdown />
       </Box> */}

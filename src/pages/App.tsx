@@ -43,6 +43,7 @@ import Soon from './Soon'
 import Bridge from './Bridge'
 import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
+import Claim from './Claim'
 
 delete theme.styles.global;
 
@@ -234,6 +235,7 @@ export default function App() {
                   <Route path="send" element={<RedirectPathToSwapOnly />} />
                   <Route path="swap" element={<Swap />} />
                   {/* <Route path="bridge" element={<Bridge />} /> */}
+                  <Route path="claim" element={<Claim />} />
 
                   <Route path="pool/find" element={<PoolFinder />} />
                   <Route path="pool" element={<PoolV2 />} />

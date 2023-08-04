@@ -193,5 +193,6 @@ export function useToken(tokenAddress?: string | null): Token | null | undefined
 export function useCurrency(currencyId: Maybe<string>, chainId?: ChainId): Currency | null | undefined {
   const { chainId: connectedChainId } = useWeb3React()
   const tokens = useDefaultActiveTokens(chainId ?? connectedChainId)
+  console.log('tokens', tokens)
   return useCurrencyFromMap(tokens, chainId ?? connectedChainId, currencyId)
 }

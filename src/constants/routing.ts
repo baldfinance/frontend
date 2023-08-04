@@ -250,3 +250,8 @@ export const BRIDGE_CONTRACTS: AddressMap = {
   [ChainId.MAINNET]: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
   [ChainId.GOERLI]: '0x240F7730b312Fb86c2986ECD6dd5eDc818F46e70',
 };
+
+export const CLAIM_CONTRACTS: AddressMap = {
+  [ChainId.BASE]: '0x9c813F6E47fcfebD08acFaBc4765a56a0FFCA98d',
+  [ChainId.BASE_GOERLI]: '0x9c813F6E47fcfebD08acFaBc4765a56a0FFCA98d',
+};
