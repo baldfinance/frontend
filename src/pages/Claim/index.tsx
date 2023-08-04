@@ -359,7 +359,7 @@ export function Claim({
   connectedChainId !== ChainId.BASE &&
   connectedChainId !== ChainId.BASE_GOERLI;
   
-  const claimingContractIsBeingDeployed = true;
+  const claimingContractIsBeingDeployed = false;
 
   let button;
 
